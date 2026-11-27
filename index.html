@@ -1,4 +1,4 @@
-<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EMS TUH Part Control v4.9.6</title>
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EMS TUH Part Control v4.9.8</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#081522;color:#eaf3fb;font:15px system-ui,sans-serif}header{padding:18px;background:#10263a;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}main{max-width:1250px;margin:auto;padding:16px;display:grid;grid-template-columns:1.5fr 1fr;gap:14px}.card{background:#102338;border:1px solid #29445c;border-radius:12px;padding:15px}h1{font-size:21px;margin:0}h2{font-size:17px;color:#55d8e8;margin:0 0 12px}h3{font-size:14px;color:#b9d9e9;margin:16px 0 8px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.field{display:flex;flex-direction:column;gap:4px;min-width:0}label,.note,.status{font-size:12px;color:#a9bed0}input,select{width:100%;min-width:0;background:#071522;color:#eaf3fb;border:1px solid #38546d;border-radius:7px;padding:9px;font:inherit}button{border:0;border-radius:8px;padding:10px 13px;background:#294a65;color:white;font-weight:700;cursor:pointer}button.primary{background:#42e3a2;color:#062319}button.warn{background:#76571d}button.danger{background:#7e252c;color:#ffe6e8}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.pending{display:none;margin-top:10px;padding:9px;background:#3b3018;border:1px solid #8a6c29;color:#ffe3a0;border-radius:7px;font-size:12px}.pending.show{display:block}.leadgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.leadst-card{display:flex;justify-content:space-between;align-items:center;gap:6px;background:#091a29;padding:7px 8px;border:1px solid #2a455c;border-radius:7px;font-size:12px}.leadst-card select{width:auto;padding:4px 6px;font-size:11px;border-radius:5px}.leadcheck{display:flex;gap:6px;align-items:center;background:#091a29;padding:7px;border:1px solid #2a455c;border-radius:6px;font-size:12px}.leadcheck input{width:auto}
 
@@ -28,7 +28,7 @@
 <div class="field"><label>HR (bpm)</label><input id="hr" type="number" value="75"></div><div class="field"><label>SpO₂ (%)</label><input id="spo2" type="number" value="98"></div><div class="field"><label>RR (/min)</label><input id="rr" type="number" value="16"></div><div class="field"><label>BP systolic</label><input id="sys" type="number" value="120"></div><div class="field"><label>BP diastolic</label><input id="dia" type="number" value="80"></div><div class="field"><label>EtCO₂ (mmHg)</label><input id="etco2" type="number" value="38"></div><div class="field"><label>Temp (°C)</label><input id="temp" type="number" step=".1" value="36.8"></div><div class="field"><label>Pleth amplitude (%)</label><input id="pleth" type="number" value="75"></div><div class="field"><label>Capno amplitude (%)</label><input id="capno" type="number" value="75"></div></div>
 <div id="pv" class="pending">มีการแก้ไขค่า ต้องกดยืนยันก่อนส่งไป Monitor</div><div class="actions"><button class="primary" id="cv">ยืนยันและส่ง Vital signs</button><button id="rv">ยกเลิกการแก้ไข</button></div><hr>
 <h2>2. Monitor Display Control</h2>
- <p class="note">เลือกเปิด/ปิดสิ่งที่ต้องการให้ผู้เรียนเห็นบนหน้าจอ Monitor และปรับขนาดแอมพลิจูด EKG ได้ทันที</p>
+ <p class="note">ติ๊กเลือกเพื่อแสดงหรือซ่อนพารามิเตอร์บนหน้าจอ Monitor ทันที (ส่วน ECG Amplitude กดยืนยันเมื่อปรับขนาด)</p>
  <div class="grid" id="displayControls">
    <label class="leadcheck"><input type="checkbox" data-display="ecgWave" checked> ECG waveform</label>
    <label class="leadcheck"><input type="checkbox" data-display="plethWave" checked> Pleth waveform</label>
@@ -42,10 +42,10 @@
    <label class="leadcheck"><input type="checkbox" data-display="rhythmInfo" checked> Rhythm / Therapy text</label>
    <div class="field"><label>ECG Amplitude (Gain)</label><select id="ecgAmpSelect"><option value="0.5">0.5x (5 mm/mV)</option><option value="1" selected>1.0x (10 mm/mV)</option><option value="1.5">1.5x (15 mm/mV)</option><option value="2">2.0x (20 mm/mV)</option></select></div>
  </div>
- <div class="actions"><button class="primary" id="applyDisplay">ส่งการตั้งค่าการแสดงผล</button><button id="showAllDisplay">แสดงทั้งหมด</button><button id="hideAllDisplay">ซ่อนทั้งหมด</button></div>
- <div id="pd" class="pending">มีการเปลี่ยนแปลงการแสดงผล ต้องกดยืนยันก่อนส่ง</div>
+ <div class="actions"><button class="primary" id="applyDisplay">ส่งการตั้งค่า ECG Amplitude</button><button id="showAllDisplay">แสดงทั้งหมด</button><button id="hideAllDisplay">ซ่อนทั้งหมด</button></div>
+ <div id="pd" class="pending">มีการเปลี่ยนแปลง ECG Amplitude ต้องกดยืนยันก่อนส่ง</div>
  <hr>
- <h2>3. ECG rhythm & rate</h2><div class="grid"><div class="field"><label>กลุ่ม Rhythm</label><select id="group"><option value="sinus">Sinus</option><option value="atrial">Atrial</option><option value="junctional">Junctional</option><option value="ventricular">Ventricular</option><option value="block">AV / Bundle branch block</option><option value="paced">Pacemaker</option><option value="other">Other</option></select></div><div class="field"><label>ECG morphology</label><select id="rhythm"></select></div><div class="field"><label>Rate (bpm)</label><input id="rate" type="number" min="0" max="300" value="75"></div><div class="field"><label>Pulse status</label><select id="pulseStatus"><option value="present">มีชีพจร (Pulse present)</option><option value="pulseless">ไม่มีชีพจร (Pulseless)</option></select></div></div><p class="note">Rate ที่ยืนยันจะกำหนดอัตราการเกิดคลื่น ECG บน Monitor ด้วย · PEA คือ organized electrical activity ที่ไม่มีชีพจร ไม่ใช่ waveform เฉพาะชนิด และสามารถกำหนด pulseless VT ได้</p><div id="pr" class="pending">มีการแก้ไข Rhythm / Rate ต้องกดยืนยันก่อนส่ง</div><div class="actions"><button class="primary" id="cr">ยืนยันและส่ง Rhythm / Rate</button><button id="rrst">ยกเลิก</button></div><hr>
+ <h2>3. ECG rhythm & rate</h2><div class="grid"><div class="field"><label>กลุ่ม Rhythm</label><select id="group"><option value="sinus">Sinus</option><option value="atrial">Atrial</option><option value="junctional">Junctional</option><option value="ventricular">Ventricular</option><option value="block">AV / Bundle branch block</option><option value="other">Other</option></select></div><div class="field"><label>ECG morphology</label><select id="rhythm"></select></div><div class="field"><label>Rate (bpm)</label><input id="rate" type="number" min="0" max="300" value="75"></div><div class="field"><label>Pulse status</label><select id="pulseStatus"><option value="present">มีชีพจร (Pulse present)</option><option value="pulseless">ไม่มีชีพจร (Pulseless)</option></select></div></div><p class="note">Rate ที่ยืนยันจะกำหนดอัตราการเกิดคลื่น ECG บน Monitor ด้วย · PEA คือ organized electrical activity ที่ไม่มีชีพจร ไม่ใช่ waveform เฉพาะชนิด และสามารถกำหนด pulseless VT ได้</p><div id="pr" class="pending">มีการแก้ไข Rhythm / Rate ต้องกดยืนยันก่อนส่ง</div><div class="actions"><button class="primary" id="cr">ยืนยันและส่ง Rhythm / Rate</button><button id="rrst">ยกเลิก</button></div><hr>
 
 <h2>4. 12-lead ECG Capture</h2>
 <p class="note">แยกอิสระจาก Part 3 อย่างสมบูรณ์: ยังไม่ส่งไปแสดงบน Monitor จนกว่าจะกด <b>"ยืนยันและส่ง ECG Capture"</b> (บน Monitor จะแสดงเส้นสีดำล้วนและไม่มีข้อความเฉลย)</p>
@@ -366,7 +366,6 @@ const rhythms={
   junctional:[["junctional","Junctional rhythm"],["junctional_brady","Junctional bradycardia"],["junctional_accel","Accelerated junctional rhythm"],["junctional_tachy","Junctional tachycardia"]],
   ventricular:[["pvc","PVC"],["bigeminy","Ventricular bigeminy"],["trigeminy","Ventricular trigeminy"],["idioventricular","Idioventricular rhythm"],["aivr","AIVR"],["vt_mono","Monomorphic VT"],["vt_poly","Polymorphic VT (multi-focus)"],["torsades","Torsades de pointes (twisting)"],["vf","Coarse VF"],["vf_fine","Fine VF"],["asystole","Asystole"],["pea","PEA / organized rhythm (simulation)"]],
   block:[["av1","First-degree AV block"],["mobitz1","Second-degree AV block – Mobitz I"],["mobitz2","Second-degree AV block – Mobitz II"],["av3","Third-degree / complete AV block"],["rbbb","RBBB"],["lbbb","LBBB"],["bifascicular","Bifascicular block"]],
-  paced:[["paced_capture","Ventricular paced rhythm"],["paced_noncapture","Ventricular non-paced rhythm"]],
   other:[["artifact","Motion / electrical artifact"],["agonal","Agonal rhythm"],["custom","Other / custom rhythm"]]
 };
 
@@ -581,11 +580,35 @@ function displaySettings(){
   $("displayControls").querySelectorAll("input[data-display]").forEach(x=>out[x.dataset.display]=x.checked);
   return out;
 }
-$("displayControls").querySelectorAll("input[data-display]").forEach(x=>x.addEventListener("change",()=>$("pd").classList.add("show")));
+
+/* Part 2: ส่งค่าการแสดงผล checkbox ไปที่ Monitor ทันทีโดยไม่ต้องกดยืนยัน */
+async function syncDisplayImmediately(){
+  if(!connected) return;
+  try{
+    const updates = { updatedAt: firebase.database.ServerValue.TIMESTAMP };
+    $("displayControls").querySelectorAll("input[data-display]").forEach(x => {
+      updates[x.dataset.display] = x.checked;
+    });
+    await room.child("state/display").update(updates);
+    $("sent").textContent = "อัปเดตการแสดงผลบน Monitor ทันที · " + new Date().toLocaleTimeString("th-TH");
+  }catch(e){
+    console.error("Display sync error:", e);
+  }
+}
+
+$("displayControls").querySelectorAll("input[data-display]").forEach(x=>x.addEventListener("change",()=>{
+  syncDisplayImmediately();
+}));
 $("ecgAmpSelect").addEventListener("change",()=>$("pd").classList.add("show"));
 $("applyDisplay").onclick=()=>confirmSend("display",displaySettings(),"Monitor Display","pd");
-$("showAllDisplay").onclick=()=>{$("displayControls").querySelectorAll("input").forEach(x=>x.checked=true);$("pd").classList.add("show")};
-$("hideAllDisplay").onclick=()=>{$("displayControls").querySelectorAll("input").forEach(x=>x.checked=false);$("pd").classList.add("show")};
+$("showAllDisplay").onclick=()=>{
+  $("displayControls").querySelectorAll("input[type='checkbox']").forEach(x=>x.checked=true);
+  syncDisplayImmediately();
+};
+$("hideAllDisplay").onclick=()=>{
+  $("displayControls").querySelectorAll("input[type='checkbox']").forEach(x=>x.checked=false);
+  syncDisplayImmediately();
+};
 
 function vitals(){
   return {
@@ -611,6 +634,7 @@ $("setDefaultBtn").onclick=()=>{
   $("ecgAmpSelect").value = "1";
   ["pv","pd","pr","pc","pt"].forEach(box => $(box).classList.add("show"));
   preview();
+  syncDisplayImmediately();
   $("sent").textContent = "ล้างค่าเป็นช่องว่างทั้งหมดแล้ว (Set Default) · กดยืนยันส่งค่าเมื่อพร้อม";
 };
 
