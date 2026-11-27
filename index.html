@@ -1,8 +1,8 @@
-<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EMS TUH Part Control v4.9</title>
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EMS TUH Part Control v4.9.6</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#081522;color:#eaf3fb;font:15px system-ui,sans-serif}header{padding:18px;background:#10263a;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}main{max-width:1250px;margin:auto;padding:16px;display:grid;grid-template-columns:1.5fr 1fr;gap:14px}.card{background:#102338;border:1px solid #29445c;border-radius:12px;padding:15px}h1{font-size:21px;margin:0}h2{font-size:17px;color:#55d8e8;margin:0 0 12px}h3{font-size:14px;color:#b9d9e9;margin:16px 0 8px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.field{display:flex;flex-direction:column;gap:4px;min-width:0}label,.note,.status{font-size:12px;color:#a9bed0}input,select{width:100%;min-width:0;background:#071522;color:#eaf3fb;border:1px solid #38546d;border-radius:7px;padding:9px;font:inherit}button{border:0;border-radius:8px;padding:10px 13px;background:#294a65;color:white;font-weight:700;cursor:pointer}button.primary{background:#42e3a2;color:#062319}button.warn{background:#76571d}button.danger{background:#7e252c;color:#ffe6e8}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.pending{display:none;margin-top:10px;padding:9px;background:#3b3018;border:1px solid #8a6c29;color:#ffe3a0;border-radius:7px;font-size:12px}.pending.show{display:block}.leadgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.leadst-card{display:flex;justify-content:space-between;align-items:center;gap:6px;background:#091a29;padding:7px 8px;border:1px solid #2a455c;border-radius:7px;font-size:12px}.leadst-card select{width:auto;padding:4px 6px;font-size:11px;border-radius:5px}.leadcheck{display:flex;gap:6px;align-items:center;background:#091a29;padding:7px;border:1px solid #2a455c;border-radius:6px;font-size:12px}.leadcheck input{width:auto}
 
-/* 12-Lead Sample-Matching Strip Layout */
+/* 12-Lead Strip Layout */
 .capture{background:#fff;color:#172838;padding:12px;border-radius:8px;margin-top:12px;border:1px solid #c9d6e0}
 .capture h3{color:#172838;margin:0;font-size:14px}
 .capturehead{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px;margin-bottom:6px}
@@ -39,7 +39,7 @@
    <label class="leadcheck"><input type="checkbox" data-display="etco2" checked> EtCO₂</label>
    <label class="leadcheck"><input type="checkbox" data-display="rr" checked> RR</label>
    <label class="leadcheck"><input type="checkbox" data-display="temp" checked> TEMP</label>
-   <label class="leadcheck"><input type="checkbox" data-display="rhythmInfo" checked> Rhythm / Therapy / 12-lead text</label>
+   <label class="leadcheck"><input type="checkbox" data-display="rhythmInfo" checked> Rhythm / Therapy text</label>
    <div class="field"><label>ECG Amplitude (Gain)</label><select id="ecgAmpSelect"><option value="0.5">0.5x (5 mm/mV)</option><option value="1" selected>1.0x (10 mm/mV)</option><option value="1.5">1.5x (15 mm/mV)</option><option value="2">2.0x (20 mm/mV)</option></select></div>
  </div>
  <div class="actions"><button class="primary" id="applyDisplay">ส่งการตั้งค่าการแสดงผล</button><button id="showAllDisplay">แสดงทั้งหมด</button><button id="hideAllDisplay">ซ่อนทั้งหมด</button></div>
@@ -48,7 +48,7 @@
  <h2>3. ECG rhythm & rate</h2><div class="grid"><div class="field"><label>กลุ่ม Rhythm</label><select id="group"><option value="sinus">Sinus</option><option value="atrial">Atrial</option><option value="junctional">Junctional</option><option value="ventricular">Ventricular</option><option value="block">AV / Bundle branch block</option><option value="paced">Pacemaker</option><option value="other">Other</option></select></div><div class="field"><label>ECG morphology</label><select id="rhythm"></select></div><div class="field"><label>Rate (bpm)</label><input id="rate" type="number" min="0" max="300" value="75"></div><div class="field"><label>Pulse status</label><select id="pulseStatus"><option value="present">มีชีพจร (Pulse present)</option><option value="pulseless">ไม่มีชีพจร (Pulseless)</option></select></div></div><p class="note">Rate ที่ยืนยันจะกำหนดอัตราการเกิดคลื่น ECG บน Monitor ด้วย · PEA คือ organized electrical activity ที่ไม่มีชีพจร ไม่ใช่ waveform เฉพาะชนิด และสามารถกำหนด pulseless VT ได้</p><div id="pr" class="pending">มีการแก้ไข Rhythm / Rate ต้องกดยืนยันก่อนส่ง</div><div class="actions"><button class="primary" id="cr">ยืนยันและส่ง Rhythm / Rate</button><button id="rrst">ยกเลิก</button></div><hr>
 
 <h2>4. 12-lead ECG Capture</h2>
-<p class="note">จะแสดงภาพ 12-Lead เต็มจอบน Monitor เฉพาะเมื่อกด <b>"ยืนยันและส่ง ECG Capture"</b> และจะปิดการแสดงผลบน Monitor ทันทีเมื่อกด <b>"ยกเลิก / ปิดบน Monitor"</b></p>
+<p class="note">แยกอิสระจาก Part 3 อย่างสมบูรณ์: ยังไม่ส่งไปแสดงบน Monitor จนกว่าจะกด <b>"ยืนยันและส่ง ECG Capture"</b> (บน Monitor จะแสดงเส้นสีดำล้วนและไม่มีข้อความเฉลย)</p>
 <div class="grid">
   <div class="field"><label>Wall / STEMI Preset</label>
     <select id="pattern">
@@ -58,10 +58,17 @@
       <option value="anteroseptal">Anteroseptal STEMI (V1–V3 ↑ · II, III, aVF ↓)</option>
       <option value="anterolateral">Anterolateral STEMI (I, aVL, V3–V6 ↑ · II, III, aVF ↓)</option>
       <option value="lateral">Lateral STEMI (I, aVL, V5–V6 ↑ · III, aVF ↓)</option>
-      <option value="posterior">Posterior MI (V1–V3 ↓ Reciprocal)</option>
-      <option value="rv">RV MI (Inferior II, III, aVF ↑ + aVL ↓)</option>
+      <option value="posterior">Posterior MI (V1–V3 ↓ Reciprocal · V7–V9 ↑)</option>
+      <option value="rv">RV MI (Inferior II, III, aVF ↑ · V3R–V4R ↑ · aVL ↓)</option>
       <option value="diffuse">Diffuse Ischemia (aVR ↑ · I, II, V3–V6 ↓)</option>
       <option value="custom">Custom per lead</option>
+    </select>
+  </div>
+  <div class="field"><label>Precordial / Extra Leads</label>
+    <select id="extraLeadMode">
+      <option value="standard" selected>Standard (V1–V6)</option>
+      <option value="posterior">V7, V8, V9 (แทนตำแหน่ง V4, V5, V6)</option>
+      <option value="rv">V3R, V4R (แทนตำแหน่ง V3, V4)</option>
     </select>
   </div>
   <div class="field"><label>Capture rate (bpm)</label><input id="caprate" type="number" value="75" min="10" max="260"></div>
@@ -80,7 +87,7 @@
     <div><h3>EMS TUH – 12 LEAD ECG SIMULATION</h3><span id="pname">Scenario: —</span></div>
     <span id="pdate"></span>
   </div>
-  <div style="font-size:11px;margin-bottom:6px"><b id="patt">Normal (No ST shift)</b> · Rate <b id="prate">75</b> bpm</div>
+  <div style="font-size:11px;margin-bottom:6px"><b id="patt">Normal (No ST shift)</b> · Rate <b id="prate">75</b> bpm · <span id="pleadmode">V1–V6</span></div>
   <div class="strip-12">
     <div class="strip-grid">
       <div class="strip-col" id="colLeft"></div>
@@ -92,7 +99,7 @@
 </section>
 <aside class="card">
 <h2>5. Defibrillator / Pacing</h2><div class="field"><label>Mode</label><select id="mode"><option>Monitor</option><option>Manual Defibrillation</option><option>Transcutaneous Pacing</option></select></div><div class="grid" style="margin-top:9px"><div class="field"><label>Energy (J)</label><input id="energy" type="number" value="200"></div><div class="field"><label>Pacing rate (ppm)</label><input id="paceRate" type="number" value="70"></div><div class="field"><label>Pacing current (mA)</label><input id="ma" type="number" value="60"></div></div><div id="pt" class="pending">มีการแก้ไข Defib / Pacing ต้องกดยืนยันก่อนส่ง</div><div class="actions"><button class="primary" id="ct">ยืนยันการตั้งค่า</button><button id="rt">ยกเลิก</button></div><hr>
-<h2>6. สถานะการเชื่อมต่อ & รีเซ็ต</h2><p class="note">เชื่อมต่อ Firebase อัตโนมัติด้วย PIN จาก App 1</p><div id="sent" class="status">ยังไม่มีการส่งข้อมูล</div><div class="actions"><button class="warn" id="all">ยืนยันส่งค่าทั้งหมด</button><button class="danger" id="setDefaultBtn">Set Default (ล้างค่าเริ่มต้นใหม่)</button></div></aside></main>
+<h2>6. สถานะการเชื่อมต่อ & รีเซ็ต</h2><p class="note">เชื่อมต่อ Firebase อัตโนมัติด้วย PIN จาก App 1</p><div id="sent" class="status">ยังไม่มีการส่งข้อมูล</div><div class="actions"><button class="warn" id="all">ยืนยันส่งค่าทั้งหมด (ไม่รวม 12-Lead)</button><button class="danger" id="setDefaultBtn">Set Default (ล้างค่าเริ่มต้นใหม่)</button></div></aside></main>
 <div class="credit" style="text-align:center;color:#7f96a8;font-size:10px;padding:0 0 10px">Wittaya Pholoung : ENP Thammasat</div>
 <div class="disclaimer">ระบบนี้เป็นเครื่องมือจำลองเพื่อการฝึกอบรมเท่านั้น ไม่ใช่อุปกรณ์ Monitor / Defibrillator ทางการแพทย์จริง รูปคลื่น ECG เป็นคลื่นสังเคราะห์เพื่อสาธิตลักษณะทางสรีรวิทยา ไม่ใช่คลื่นที่บันทึกจากผู้ป่วยจริง และไม่ใช้วินิจฉัยหรือประกอบการตัดสินใจรักษาผู้ป่วยจริง</div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
@@ -122,16 +129,11 @@ const EMSECG = (() => {
     if (rhythm === "vt_poly") {
       let t = -3, n = 0;
       while (t < duration) {
-        const hFocus = hash(n, seed + 3);
-        const hExit = hash(n * 3 + 7, seed + 13);
-        const hAmp = hash(n * 5 + 11, seed + 29);
-        const hWidth = hash(n * 7 + 19, seed + 41);
-        const hStep = hash(n * 11 + 23, seed + 53);
+        const hFocus = hash(n, seed + 3), hExit = hash(n * 3 + 7, seed + 13), hAmp = hash(n * 5 + 11, seed + 29), hWidth = hash(n * 7 + 19, seed + 41), hStep = hash(n * 11 + 23, seed + 53);
         const beatDur = Math.max(0.22, Math.min(0.38, ventricularCycle * (0.76 + 0.24 * hWidth)));
         const step = Math.max(beatDur + 0.015, ventricularCycle * (0.82 + 0.34 * hStep));
         push(null, t, "pvt_beat", 0, n, step, { beatDur, hFocus, hExit, hAmp, hWidth }, t);
-        t += step;
-        n++;
+        t += step; n++;
       }
       return out;
     }
@@ -143,24 +145,18 @@ const EMSECG = (() => {
       for (let aT = -atrialCycle * 4; aT < duration; aT += atrialCycle, n++) {
         const dropped = rhythm === "mobitz1" ? (n % 4 === 3) : (n % 3 === 2);
         const pr = rhythm === "mobitz1" ? [0.16, 0.24, 0.32, 0.16][n % 4] : 0.18;
-        const qT = dropped ? null : aT + pr;
-        push(aT, qT, dropped ? "dropped" : "conducted", pr, n, atrialCycle, null, aT);
+        push(aT, dropped ? null : aT + pr, dropped ? "dropped" : "conducted", pr, n, atrialCycle, null, aT);
       }
       return out;
     }
 
     if (rhythm === "av3") {
-      const atrialRate = Math.min(110, Math.max(70, r * 2.1));
-      const atrialCycle = 60 / atrialRate;
+      const atrialCycle = 60 / Math.min(110, Math.max(70, r * 2.1));
       let n = 0;
-      for (let aT = -3; aT < duration; aT += atrialCycle, n++) {
-        push(aT, null, "av3_atrial", 0, n, atrialCycle, null, aT);
-      }
+      for (let aT = -3; aT < duration; aT += atrialCycle, n++) push(aT, null, "av3_atrial", 0, n, atrialCycle, null, aT);
       const escapeCycle = 60 / Math.max(20, Math.min(60, r));
       n = 0;
-      for (let qT = -3.15; qT < duration; qT += escapeCycle, n++) {
-        push(null, qT, "av3_qrs", 0, n, escapeCycle, null, qT);
-      }
+      for (let qT = -3.15; qT < duration; qT += escapeCycle, n++) push(null, qT, "av3_qrs", 0, n, escapeCycle, null, qT);
       return out.sort((a, b) => a.t - b.t);
     }
 
@@ -171,12 +167,9 @@ const EMSECG = (() => {
         const fCount = rr >= 0.65 ? 3 : 2;
         const fw = Math.min(0.15, (rr * 0.72) / fCount);
         const fTimes = [];
-        for (let k = fCount; k >= 1; k--) {
-          fTimes.push(t - k * fw - 0.02);
-        }
+        for (let k = fCount; k >= 1; k--) fTimes.push(t - k * fw - 0.02);
         push(null, t, "flutter", 0, n, rr, { fTimes, fw }, t);
-        t += rr;
-        n++;
+        t += rr; n++;
       }
       return out;
     }
@@ -184,62 +177,28 @@ const EMSECG = (() => {
     let t = -3, n = 0;
     while (t < duration) {
       let rr = ventricularCycle, kind = "normal", pr = 0.16, aT = t, qT = t + pr, extra = null;
-
-      if (afSet.has(rhythm)) {
-        rr = ventricularCycle * (0.52 + hash(n, seed) * 0.96);
-        aT = null; qT = t; kind = "af";
-      } else if (rhythm === "sinus_arrhythmia") {
-        rr = ventricularCycle * (0.80 + 0.40 * (0.5 + 0.5 * Math.sin(n * 1.25)));
-      } else if (rhythm === "sinus_pause") {
-        if (n % 6 === 4) rr = ventricularCycle * 2.4;
-      } else if (rhythm === "pac") {
-        if (n % 4 === 2) {
-          rr = ventricularCycle * 0.68;
-          kind = "pac";
-          aT = t - 0.08;
-          qT = aT + 0.15;
-          pr = 0.15;
-        }
-      } else if (rhythm === "pvc" || rhythm === "bigeminy" || rhythm === "trigeminy") {
-        const isPvc = (rhythm === "pvc" && n % 5 === 3) ||
-                      (rhythm === "bigeminy" && n % 2 === 1) ||
-                      (rhythm === "trigeminy" && n % 3 === 2);
-        if (isPvc) {
-          rr = ventricularCycle * 0.65;
-          kind = "pvc"; aT = null; qT = t;
-        }
-      } else if (junctionalSet.has(rhythm)) {
-        kind = "junctional"; aT = t - 0.09; qT = t; pr = 0.09;
-      } else if (wideVentricular.has(rhythm)) {
-        kind = "wide"; aT = null; qT = t;
-      } else if (rhythm === "paced_capture") {
-        kind = "paced_captured_beat";
-        aT = null;
-        qT = t;
-        extra = { spikeTime: t - 0.016 };
-      } else if (rhythm === "paced_noncapture") {
+      if (afSet.has(rhythm)) { rr = ventricularCycle * (0.52 + hash(n, seed) * 0.96); aT = null; qT = t; kind = "af"; }
+      else if (rhythm === "sinus_arrhythmia") { rr = ventricularCycle * (0.80 + 0.40 * (0.5 + 0.5 * Math.sin(n * 1.25))); }
+      else if (rhythm === "sinus_pause") { if (n % 6 === 4) rr = ventricularCycle * 2.4; }
+      else if (rhythm === "pac") { if (n % 4 === 2) { rr = ventricularCycle * 0.68; kind = "pac"; aT = t - 0.08; qT = aT + 0.15; pr = 0.15; } }
+      else if (rhythm === "pvc" || rhythm === "bigeminy" || rhythm === "trigeminy") {
+        const isPvc = (rhythm === "pvc" && n % 5 === 3) || (rhythm === "bigeminy" && n % 2 === 1) || (rhythm === "trigeminy" && n % 3 === 2);
+        if (isPvc) { rr = ventricularCycle * 0.65; kind = "pvc"; aT = null; qT = t; }
+      } else if (junctionalSet.has(rhythm)) { kind = "junctional"; aT = t - 0.09; qT = t; pr = 0.09; }
+      else if (wideVentricular.has(rhythm)) { kind = "wide"; aT = null; qT = t; }
+      else if (rhythm === "paced_capture") { kind = "paced_captured_beat"; aT = null; qT = t; extra = { spikeTime: t - 0.016 }; }
+      else if (rhythm === "paced_noncapture") {
         const captured = (n % 3 === 0);
         kind = captured ? "paced_captured_beat" : "paced_missed_beat";
-        aT = null;
-        qT = captured ? t : null;
-        extra = { spikeTime: captured ? (t - 0.016) : t };
-      } else if (rhythm === "av1") {
-        pr = 0.28; qT = aT + pr;
-      } else if (rhythm === "atrial_tachy") {
-        pr = 0.13; qT = aT + pr;
-      } else if (rhythm === "mat") {
-        rr = ventricularCycle * (0.72 + 0.56 * hash(n, seed + 9));
-        pr = [0.13, 0.18, 0.23][n % 3];
-        qT = aT + pr;
-      } else if (rhythm === "svt") {
-        aT = null; qT = t; kind = "svt";
-      } else if (rhythm === "artifact") {
-        kind = "artifact";
-      }
+        aT = null; qT = captured ? t : null; extra = { spikeTime: captured ? (t - 0.016) : t };
+      } else if (rhythm === "av1") { pr = 0.28; qT = aT + pr; }
+      else if (rhythm === "atrial_tachy") { pr = 0.13; qT = aT + pr; }
+      else if (rhythm === "mat") { rr = ventricularCycle * (0.72 + 0.56 * hash(n, seed + 9)); pr = [0.13, 0.18, 0.23][n % 3]; qT = aT + pr; }
+      else if (rhythm === "svt") { aT = null; qT = t; kind = "svt"; }
+      else if (rhythm === "artifact") { kind = "artifact"; }
 
       push(aT, qT, kind, pr, n, rr, extra, t);
-      t += Math.max(0.18, rr);
-      n++;
+      t += Math.max(0.18, rr); n++;
     }
     return out;
   }
@@ -257,7 +216,12 @@ const EMSECG = (() => {
       "V3":  { p: 0.65, q: 0.1,  r: 0.85, s: 1.4,  t: 1.10 },
       "V4":  { p: 0.75, q: 0.4,  r: 1.25, s: 0.7,  t: 1.15 },
       "V5":  { p: 0.80, q: 0.8,  r: 1.15, s: 0.35, t: 0.95 },
-      "V6":  { p: 0.75, q: 0.8,  r: 0.95, s: 0.2,  t: 0.80 }
+      "V6":  { p: 0.75, q: 0.8,  r: 0.95, s: 0.2,  t: 0.80 },
+      "V3R": { p: 0.45, q: 0.0,  r: 0.35, s: 2.2,  t: -0.25 },
+      "V4R": { p: 0.40, q: 0.0,  r: 0.30, s: 2.4,  t: -0.30 },
+      "V7":  { p: 0.75, q: 0.6,  r: 1.05, s: 0.35, t: 0.90 },
+      "V8":  { p: 0.70, q: 0.6,  r: 0.95, s: 0.30, t: 0.85 },
+      "V9":  { p: 0.65, q: 0.5,  r: 0.85, s: 0.25, t: 0.80 }
     };
     return map[lead] || map["II"];
   }
@@ -361,7 +325,6 @@ const EMSECG = (() => {
 
       y += -0.14 * w.q * gauss(d, -0.030, 0.008) + 1.02 * w.r * gauss(d, 0, 0.011) - 0.26 * w.s * gauss(d, 0.032, 0.010);
 
-      // Realistic ST segment elevation / depression + hyperacute/inverted T wave
       if (stShift !== 0 && d > 0.022 && d < 0.32) {
         y += stShift * gauss(d, 0.115, 0.068);
       }
@@ -408,10 +371,18 @@ const rhythms={
 };
 
 const LEFT_LEADS = ["I","II","III","aVR","aVL","aVF"];
-const RIGHT_LEADS = ["V1","V2","V3","V4","V5","V6"];
-const ALL_12_LEADS = [...LEFT_LEADS, ...RIGHT_LEADS];
+const BASE_RIGHT_LEADS = ["V1","V2","V3","V4","V5","V6"];
 
-/* Clinically grounded wall presets: 'normal' | 'up' | 'down' */
+function getRightColumnLeads(extraMode){
+  if(extraMode === "posterior"){
+    return ["V1","V2","V3","V7","V8","V9"];
+  }
+  if(extraMode === "rv"){
+    return ["V1","V2","V3R","V4R","V5","V6"];
+  }
+  return [...BASE_RIGHT_LEADS];
+}
+
 const WALL_PRESETS = {
   normal:        { label:"Normal (No ST shift)", map:{} },
   inferior:      { label:"Inferior STEMI (II, III, aVF ↑ · I, aVL ↓)", map:{ II:"up", III:"up", aVF:"up", I:"down", aVL:"down" } },
@@ -419,28 +390,44 @@ const WALL_PRESETS = {
   anteroseptal:  { label:"Anteroseptal STEMI (V1–V3 ↑ · II, III, aVF ↓)", map:{ V1:"up", V2:"up", V3:"up", II:"down", III:"down", aVF:"down" } },
   anterolateral: { label:"Anterolateral STEMI (I, aVL, V3–V6 ↑ · II, III, aVF ↓)", map:{ I:"up", aVL:"up", V3:"up", V4:"up", V5:"up", V6:"up", II:"down", III:"down", aVF:"down" } },
   lateral:       { label:"Lateral STEMI (I, aVL, V5–V6 ↑ · III, aVF ↓)", map:{ I:"up", aVL:"up", V5:"up", V6:"up", III:"down", aVF:"down" } },
-  posterior:     { label:"Posterior MI (V1–V3 ↓ Reciprocal)", map:{ V1:"down", V2:"down", V3:"down" } },
-  rv:            { label:"RV MI (Inferior II, III, aVF ↑ + aVL ↓)", map:{ II:"up", III:"up", aVF:"up", aVL:"down" } },
+  posterior:     { label:"Posterior MI (V1–V3 ↓ Reciprocal · V7–V9 ↑)", map:{ V1:"down", V2:"down", V3:"down", V7:"up", V8:"up", V9:"up" } },
+  rv:            { label:"RV MI (Inferior II, III, aVF ↑ · V3R–V4R ↑ · aVL ↓)", map:{ II:"up", III:"up", aVF:"up", V3R:"up", V4R:"up", aVL:"down" } },
   diffuse:       { label:"Diffuse Ischemia (aVR ↑ · I, II, V3–V6 ↓)", map:{ aVR:"up", I:"down", II:"down", V3:"down", V4:"down", V5:"down", V6:"down" } },
   custom:        { label:"Custom per lead", map:{} }
 };
 
+const ALL_CONFIGURABLE_LEADS = ["I","II","III","aVR","aVL","aVF","V1","V2","V3","V4","V5","V6","V3R","V4R","V7","V8","V9"];
 let leadStMap = {};
-ALL_12_LEADS.forEach(l => leadStMap[l] = "normal");
+ALL_CONFIGURABLE_LEADS.forEach(l => leadStMap[l] = "normal");
 
 let db,room,connected=false;
-function fillRhythm(){let a=rhythms[v("group")];$("rhythm").innerHTML=a.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join("");$("pr").classList.add("show");if(["pea","vf","vf_fine","asystole"].includes(v("rhythm")))$("pulseStatus").value="pulseless";else if($("pulseStatus").value==="pulseless"&&v("rhythm")!=="vt_mono")$("pulseStatus").value="present"}
+/* Part 3: Completely decoupled from Part 4 */
+function fillRhythm(){
+  let a=rhythms[v("group")];
+  $("rhythm").innerHTML=a.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join("");
+  $("pr").classList.add("show");
+  if(["pea","vf","vf_fine","asystole"].includes(v("rhythm")))$("pulseStatus").value="pulseless";
+  else if($("pulseStatus").value==="pulseless"&&v("rhythm")!=="vt_mono")$("pulseStatus").value="present";
+}
 $("group").onchange=fillRhythm;fillRhythm();$("pr").classList.remove("show");
-$("rhythm").addEventListener("change",()=>{if(["pea","vf","vf_fine","asystole"].includes(v("rhythm")))$("pulseStatus").value="pulseless";else if(["pea","vf","vf_fine","asystole"].includes($("rhythm").dataset.previous))$("pulseStatus").value="present";$("rhythm").dataset.previous=v("rhythm");$("pr").classList.add("show");preview();});
+$("rhythm").addEventListener("change",()=>{
+  if(["pea","vf","vf_fine","asystole"].includes(v("rhythm")))$("pulseStatus").value="pulseless";
+  else if(["pea","vf","vf_fine","asystole"].includes($("rhythm").dataset.previous))$("pulseStatus").value="present";
+  $("rhythm").dataset.previous=v("rhythm");
+  $("pr").classList.add("show");
+});
 
+/* Part 4: Independent 12-Lead ECG Capture */
 function applyWallPreset(presetKey){
   const preset = WALL_PRESETS[presetKey] || WALL_PRESETS.normal;
-  ALL_12_LEADS.forEach(l => leadStMap[l] = preset.map[l] || "normal");
+  ALL_CONFIGURABLE_LEADS.forEach(l => leadStMap[l] = preset.map[l] || "normal");
   renderLeadStateControls();
 }
 
 function renderLeadStateControls(){
-  $("leadStates").innerHTML = ALL_12_LEADS.map(lead => {
+  const activeRight = getRightColumnLeads(v("extraLeadMode"));
+  const visibleLeads = [...LEFT_LEADS, ...activeRight];
+  $("leadStates").innerHTML = visibleLeads.map(lead => {
     const st = leadStMap[lead] || "normal";
     return `<div class="leadst-card">
       <b>${lead}</b>
@@ -463,25 +450,20 @@ function renderLeadStateControls(){
 
 applyWallPreset("normal");
 $("pattern").onchange = () => {
-  applyWallPreset(v("pattern"));
+  const p = v("pattern");
+  if(p === "posterior") $("extraLeadMode").value = "posterior";
+  else if(p === "rv") $("extraLeadMode").value = "rv";
+  else if(p !== "custom") $("extraLeadMode").value = "standard";
+  applyWallPreset(p);
   $("pc").classList.add("show");
   preview();
 };
 
-function capture(visibleOnMonitor = true){
-  const rVal = v("caprate")==="" ? 75 : Math.max(10, Math.min(260, Number(v("caprate"))));
-  const pKey = v("pattern");
-  return {
-    visible: visibleOnMonitor,
-    pattern: pKey,
-    patternLabel: (WALL_PRESETS[pKey] && WALL_PRESETS[pKey].label) || pKey,
-    rhythm: v("rhythm"),
-    rate: rVal,
-    patientId: v("pid"),
-    leadStates: { ...leadStMap },
-    timestamp: new Date().toISOString()
-  };
-}
+$("extraLeadMode").onchange = () => {
+  renderLeadStateControls();
+  $("pc").classList.add("show");
+  preview();
+};
 
 function getStShiftForLead(lead, customMap){
   const st = (customMap && customMap[lead]) || leadStMap[lead] || "normal";
@@ -490,17 +472,15 @@ function getStShiftForLead(lead, customMap){
   return 0;
 }
 
-/* Generates a single row polyline matching sample strip (calibration pulse on left/mid + multi-beat wave) */
+/* Always uses independent "nsr" base morphology — completely decoupled from Part 3 */
 function buildStripPoints(rate, lead, stMap, isRightCol, widthPx = 420, heightPx = 68, spanSec = 4.2){
-  const rh = v("rhythm") === "nsr" ? "nsr" : v("rhythm");
   const r = Math.max(10, Math.min(260, Number(rate) || 75));
   const stShift = getStShiftForLead(lead, stMap);
   const seed = 17;
-  const evts = EMSECG.events(rh, r, seed, 12);
+  const evts = EMSECG.events("nsr", r, seed, 12);
   const baselineY = heightPx * 0.62;
   const ampScale = heightPx * 0.34;
 
-  // Calibration square pulse at the beginning of each lead strip
   const calWidthPx = 22;
   const calHighY = baselineY - heightPx * 0.24;
   const pts = [
@@ -520,34 +500,72 @@ function buildStripPoints(rate, lead, stMap, isRightCol, widthPx = 420, heightPx
     const frac = i / steps;
     const x = startX + frac * (widthPx - startX);
     const sec = timeOffset + frac * spanSec;
-    const z = EMSECG.valueAt(sec, rh, r, seed, evts, lead, stShift);
+    const z = EMSECG.valueAt(sec, "nsr", r, seed, evts, lead, stShift);
     const y = baselineY - z * ampScale;
     pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
   }
   return pts.join(" ");
 }
 
-function renderLeadColumn(containerId, leadList, rate, stMap, isRightCol){
+function buildAllLeadPoints(rate, leftLeads, rightLeads, stMap){
+  const pointsMap = {};
+  leftLeads.forEach(lead => {
+    pointsMap[lead] = buildStripPoints(rate, lead, stMap, false, 420, 68, 4.2);
+  });
+  rightLeads.forEach(lead => {
+    pointsMap[lead] = buildStripPoints(rate, lead, stMap, true, 420, 68, 4.2);
+  });
+  return pointsMap;
+}
+
+function capture(visibleOnMonitor = true){
+  const rVal = v("caprate")==="" ? 75 : Math.max(10, Math.min(260, Number(v("caprate"))));
+  const pKey = v("pattern");
+  const extraMode = v("extraLeadMode");
+  const leftLeads = [...LEFT_LEADS];
+  const rightLeads = getRightColumnLeads(extraMode);
+  const stSnapshot = { ...leadStMap };
+  return {
+    visible: visibleOnMonitor,
+    pattern: pKey,
+    patternLabel: (WALL_PRESETS[pKey] && WALL_PRESETS[pKey].label) || pKey,
+    extraLeadMode: extraMode,
+    leftLeads: leftLeads,
+    rightLeads: rightLeads,
+    rhythm: "nsr",
+    rate: rVal,
+    patientId: v("pid"),
+    leadStates: stSnapshot,
+    pointsMap: buildAllLeadPoints(rVal, leftLeads, rightLeads, stSnapshot),
+    timestamp: new Date().toISOString()
+  };
+}
+
+function renderLeadColumn(containerId, leadList, rate, stMap, isRightCol, pointsMap = null){
   $(containerId).innerHTML = leadList.map(lead => {
     const st = (stMap && stMap[lead]) || leadStMap[lead] || "normal";
     const strokeColor = st === "up" ? "#b91c1c" : (st === "down" ? "#1d4ed8" : "#111827");
+    const pts = (pointsMap && pointsMap[lead]) ? pointsMap[lead] : buildStripPoints(rate, lead, stMap, isRightCol, 420, 68, 4.2);
     return `<div class="strip-row">
       <span class="strip-lead-lbl">${lead}</span>
       <svg viewBox="0 0 420 68" preserveAspectRatio="none">
-        <polyline points="${buildStripPoints(rate, lead, stMap, isRightCol, 420, 68, 4.2)}" fill="none" stroke="${strokeColor}" stroke-width="1.6" stroke-linejoin="round"/>
+        <polyline points="${pts}" fill="none" stroke="${strokeColor}" stroke-width="1.6" stroke-linejoin="round"/>
       </svg>
     </div>`;
   }).join("");
 }
 
 function preview(){
-  const c = capture(true);
+  const c = capture(false);
   $("pname").textContent = "Scenario: " + (c.patientId || "—");
   $("pdate").textContent = new Date().toLocaleString("th-TH");
   $("patt").textContent = c.patternLabel;
   $("prate").textContent = c.rate;
-  renderLeadColumn("colLeft", LEFT_LEADS, c.rate, c.leadStates, false);
-  renderLeadColumn("colRight", RIGHT_LEADS, c.rate, c.leadStates, true);
+  $("pleadmode").textContent = c.extraLeadMode === "posterior"
+    ? "V1–V3 + V7–V9 (แทน V4–V6)"
+    : (c.extraLeadMode === "rv" ? "V1–V2 + V3R–V4R (แทน V3–V4) + V5–V6" : "V1–V6");
+  renderLeadColumn("colLeft", c.leftLeads, c.rate, c.leadStates, false, c.pointsMap);
+  renderLeadColumn("colRight", c.rightLeads, c.rate, c.leadStates, true, c.pointsMap);
 }
 
 ["caprate","pid"].forEach(x=>$(x).oninput=()=>{$("pc").classList.add("show");preview()});
@@ -556,7 +574,6 @@ preview();
 function pending(ids,box){ids.forEach(id=>{["input","change"].forEach(ev=>$(id).addEventListener(ev,()=>$(box).classList.add("show")))})}
 pending(["hr","spo2","rr","sys","dia","etco2","temp","pleth","capno"],"pv");
 pending(["group","rhythm","rate","pulseStatus"],"pr");
-["group","rhythm","rate","pulseStatus"].forEach(id=>$(id).addEventListener("change",preview));
 pending(["mode","energy","paceRate","ma"],"pt");
 
 function displaySettings(){
@@ -645,7 +662,7 @@ async function confirmSend(key,data,label,box){
 $("cv").onclick=()=>confirmSend("vitals",vitals(),"Vital signs","pv");
 $("cr").onclick=()=>confirmSend("rhythm",rhythm(),"ECG Rhythm / Rate","pr");
 $("ct").onclick=()=>confirmSend("therapy",therapy(),"Defib / Pacing","pt");
-$("cc").onclick=()=>confirmSend("ecg12lead",capture(true),"12-lead ECG Capture (แสดงเต็มจอบน Monitor)","pc");
+$("cc").onclick=()=>confirmSend("ecg12lead",capture(true),"12-lead ECG Capture","pc");
 
 $("rc").onclick=async()=>{
   $("pc").classList.remove("show");
@@ -661,9 +678,9 @@ $("rrst").onclick=()=>$("pr").classList.remove("show");
 $("rt").onclick=()=>$("pt").classList.remove("show");
 $("all").onclick=async()=>{
   if(!connected)return alert("กรุณาเชื่อมต่อก่อน");
-  if(!confirm("ยืนยันส่งข้อมูลปัจจุบันทั้งหมดไปยัง Monitor?"))return;
-  for(let [k,d] of [["vitals",vitals()],["rhythm",rhythm()],["therapy",therapy()],["ecg12lead",capture(true)],["display",displaySettings()]])if(!await send(k,d))return;
-  ["pv","pr","pt","pc","pd"].forEach(x=>$(x).classList.remove("show"));
-  alert("ส่งข้อมูลทั้งหมดแล้ว");
+  if(!confirm("ยืนยันส่งข้อมูล (Vitals, Rhythm, Therapy, Display) ไปยัง Monitor? (ส่วน 12-Lead ต้องกดยืนยันแยกใน Part 4)"))return;
+  for(let [k,d] of [["vitals",vitals()],["rhythm",rhythm()],["therapy",therapy()],["display",displaySettings()]])if(!await send(k,d))return;
+  ["pv","pr","pt","pd"].forEach(x=>$(x).classList.remove("show"));
+  alert("ส่งข้อมูลทั้งหมดแล้ว (12-Lead ยังไม่แสดงจนกว่าจะกดยืนยันใน Part 4)");
 };
 </script></body></html>
